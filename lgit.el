@@ -4,8 +4,8 @@
 
 ;; Author: Jonas Bernoulli <jonas@bernoul.li>
 ;; Created: 20100308
-;; Updated: 20100308
-;; Version: 0.1
+;; Updated: 20100419
+;; Version: 0.1+
 ;; Homepage: https://github.com/tarsius/lgit
 ;; Keywords: git
 
@@ -106,8 +106,8 @@ REPO is the path to a git repository and REV has to be an existing
 revision in that repository.  FILE is the path to the file relative
 to the repositories root which has to exist in REV.
 
-`buffer-file-name' is set to the basename of FILE while the forms in BODY
-are evaluated.  The value returned is the value of the last form in BODY."
+`buffer-file-name' is set to FILE while the forms in BODY are evaluated.
+The value returned is the value of the last form in BODY."
   (declare (indent 3))
   (let ((filesym (gensym "file"))
 	(revsym (gensym "rev")))
@@ -116,7 +116,7 @@ are evaluated.  The value returned is the value of the last form in BODY."
 	   (,revsym ,rev))
        (with-temp-buffer
 	 (lgit* "show %s:%s" ,revsym ,filesym)
-	 (let ((buffer-file-name (file-name-nondirectory ,filesym)))
+	 (let ((buffer-file-name ,filesym))
 	   (with-syntax-table emacs-lisp-mode-syntax-table
 	     ,@body))))))
 
