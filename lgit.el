@@ -5,7 +5,7 @@
 ;; Author: Jonas Bernoulli <jonas@bernoul.li>
 ;; Created: 20100308
 ;; Updated: 20100419
-;; Version: 0.1+
+;; Version: 0.2
 ;; Homepage: https://github.com/tarsius/lgit
 ;; Keywords: git
 
@@ -51,6 +51,9 @@ You should only use this to debug errors, alternatively you can also log
 only specific calls to `lgit' and `lgit*' by setting the LOG argument.
 In both cases output goes to buffer \"*lgit-log*\".")
 
+(put 'lgit 'error-conditions '(error lgit))
+(put 'lgit 'error-message "Lgit Error")
+
 (defun lgit* (&rest args)
   "Execute a git command in `default-directory'.
 
@@ -81,7 +84,7 @@ LOG is t or if `lgit-log' is non-nil.  LOG has to be t or be omitted.
     (if (<= exit okstatus)
 	exit
       (pop-to-buffer (current-buffer))
-      (error "Failed (%s): %s" exit cmdline))))
+      (signal 'lgit (format "%s [code=%s]" cmdline exit)))))
 
 (defun lgit (&rest args)
   "Execute a git command inside the repository REPO.
