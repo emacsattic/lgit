@@ -4,8 +4,8 @@
 
 ;; Author: Jonas Bernoulli <jonas@bernoul.li>
 ;; Created: 20100308
-;; Updated: 20100419
-;; Version: 0.2
+;; Updated: 20100621
+;; Version: 0.2.1
 ;; Homepage: https://github.com/tarsius/lgit
 ;; Keywords: git
 
@@ -43,6 +43,8 @@
 ;; intended to be used by other libraries, not as a front-end.
 
 ;;; Code:
+
+(require 'arc-mode)
 
 (defvar lgit-log nil
   "Whether to log output of all git commands.
@@ -119,9 +121,9 @@ The value returned is the value of the last form in BODY."
 	   (,revsym ,rev))
        (with-temp-buffer
 	 (lgit* "show %s:%s" ,revsym ,filesym)
-	 (let ((buffer-file-name ,filesym))
-	   (with-syntax-table emacs-lisp-mode-syntax-table
-	     ,@body))))))
+	 (archive-set-buffer-as-visiting-file ,filesym)
+	 (with-syntax-table emacs-lisp-mode-syntax-table
+	   ,@body)))))
 
 (provide 'lgit)
 ;;; lgit.el ends here
