@@ -4,8 +4,8 @@
 
 ;; Author: Jonas Bernoulli <jonas@bernoul.li>
 ;; Created: 20100308
-;; Updated: 20100621
-;; Version: 0.2.1
+;; Updated: 20100623
+;; Version: 0.2.2
 ;; Homepage: https://github.com/tarsius/lgit
 ;; Keywords: git
 
@@ -122,6 +122,7 @@ The value returned is the value of the last form in BODY."
        (with-temp-buffer
 	 (lgit* "show %s:%s" ,revsym ,filesym)
 	 (archive-set-buffer-as-visiting-file ,filesym)
+	 (setq buffer-file-name ,filesym)
 	 (with-syntax-table emacs-lisp-mode-syntax-table
 	   ,@body)))))
 
