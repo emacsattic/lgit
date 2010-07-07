@@ -4,8 +4,8 @@
 
 ;; Author: Jonas Bernoulli <jonas@bernoul.li>
 ;; Created: 20100308
-;; Updated: 20100623
-;; Version: 0.2.2
+;; Updated: 20100707
+;; Version: 0.2.4
 ;; Homepage: https://github.com/tarsius/lgit
 ;; Keywords: git
 
@@ -125,6 +125,10 @@ The value returned is the value of the last form in BODY."
 	 (setq buffer-file-name ,filesym)
 	 (with-syntax-table emacs-lisp-mode-syntax-table
 	   ,@body)))))
+
+(defun lgit-bare-repo-p (repo)
+  "Return t if REPO is a bar repository."
+  (when (equal (car (lgit repo "config --bool core.bare")) "true") t))
 
 (provide 'lgit)
 ;;; lgit.el ends here
