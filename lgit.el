@@ -5,7 +5,7 @@
 ;; Author: Jonas Bernoulli <jonas@bernoul.li>
 ;; Created: 20100308
 ;; Updated: 20100908
-;; Version: 0.3_pre
+;; Version: 0.3
 ;; Homepage: https://github.com/tarsius/lgit
 ;; Keywords: git
 
@@ -44,6 +44,8 @@
 
 ;;; Code:
 
+(eval-when-compile
+  (require 'cl))
 (require 'arc-mode)
 
 (defvar lgit-log nil
@@ -129,6 +131,35 @@ The value returned is the value of the last form in BODY."
 (defun lgit-bare-repo-p (repo)
   "Return t if REPO is a bare repository."
   (when (equal (car (lgit repo "config --bool core.bare")) "true") t))
+
+(defun lgit-get (repo key &optional allp)
+  "Extract KEY's value(s) from the config file of REPO.
+Return the extracted value or nil if KEY is not set.  If KEY could have
+multiple values raise an error unless optional ALLP is non-nil.  In this
+case return a list of KEY's values (even if it has only one value)."
+  (funcall (if allp 'identity 'car)
+	   (cdr (lgit repo 1 (concat "config "
+				     (when allp "--get-all ")
+				     key)))))
+
+(defun lgit-branch-get (repo branch key &optional allp)
+  "Extract a key's value(s) from the config file of REPO.
+The actual key whose value is returned is \"branch.BRANCH.KEY\".
+See `lgit-get' for more details on the return value and ALLP."
+  (lgit-get repo (format "branch.%s.%s" branch key) allp))
+
+(defun lgit-set (repo key value &optional addp)
+  "Change the value of KEY in the config file of REPO to VALUE.
+If optional ADDP is non-nil add a new value to KEY without altering
+existing values instead."
+  (lgit repo (concat "config " (when addp "--add ") key " " value)))
+
+(defun lgit-branch-set (repo branch key value &optional addp)
+  "Change the value of a key in the config file of REPO to VALUE.
+The actual key whose value is set is \"branch.BRANCH.KEY\".
+If optional ADDP is non-nil add a new value to KEY without altering
+existing values."
+  (lgit-set repo (format "branch.%s.%s" branch key) value addp))
 
 (provide 'lgit)
 ;;; lgit.el ends here
