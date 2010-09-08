@@ -4,8 +4,8 @@
 
 ;; Author: Jonas Bernoulli <jonas@bernoul.li>
 ;; Created: 20100308
-;; Updated: 20100707
-;; Version: 0.2.4
+;; Updated: 20100908
+;; Version: 0.3_pre
 ;; Homepage: https://github.com/tarsius/lgit
 ;; Keywords: git
 
@@ -88,7 +88,7 @@ LOG is t or if `lgit-log' is non-nil.  LOG has to be t or be omitted.
       (pop-to-buffer (current-buffer))
       (signal 'lgit (format "%s [code=%s]" cmdline exit)))))
 
-(defun lgit (&rest args)
+(defun lgit (repo &rest args)
   "Execute a git command inside the repository REPO.
 
 Return git's output as a list of lines.  If OKSTATUS is specified git's
@@ -97,7 +97,7 @@ used by this function.
 
 \(fn REPO [OKSTATUS] [LOG] CMDFORMAT [CMDARGS...])"
   (with-temp-buffer
-    (let* ((default-directory (pop args))
+    (let* ((default-directory repo)
 	   (ret (apply 'lgit* args))
 	   (output (split-string (buffer-string) "\n" t)))
       (if (integerp (car args))
@@ -127,7 +127,7 @@ The value returned is the value of the last form in BODY."
 	   ,@body)))))
 
 (defun lgit-bare-repo-p (repo)
-  "Return t if REPO is a bar repository."
+  "Return t if REPO is a bare repository."
   (when (equal (car (lgit repo "config --bool core.bare")) "true") t))
 
 (provide 'lgit)
