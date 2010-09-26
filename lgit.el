@@ -4,8 +4,8 @@
 
 ;; Author: Jonas Bernoulli <jonas@bernoul.li>
 ;; Created: 20100308
-;; Updated: 20100908
-;; Version: 0.3
+;; Updated: 20100926
+;; Version: 0.3-git
 ;; Homepage: https://github.com/tarsius/lgit
 ;; Keywords: git
 
@@ -88,7 +88,8 @@ LOG is t or if `lgit-log' is non-nil.  LOG has to be t or be omitted.
     (if (<= exit okstatus)
 	exit
       (pop-to-buffer (current-buffer))
-      (signal 'lgit (format "%s [code=%s]" cmdline exit)))))
+      (signal 'lgit (format "%s [code=%s, path=%s]"
+			    cmdline exit default-directory)))))
 
 (defun lgit (repo &rest args)
   "Execute a git command inside the repository REPO.
