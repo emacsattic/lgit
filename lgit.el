@@ -4,7 +4,7 @@
 
 ;; Author: Jonas Bernoulli <jonas@bernoul.li>
 ;; Created: 20100308
-;; Updated: 20100926
+;; Updated: 20101027
 ;; Version: 0.3-git
 ;; Homepage: https://github.com/tarsius/lgit
 ;; Keywords: git
@@ -142,6 +142,15 @@ case return a list of KEY's values (even if it has only one value)."
 	   (cdr (lgit repo 1 (concat "config "
 				     (when allp "--get-all ")
 				     key)))))
+
+(defun lgit-get-regexp (repo regexp)
+  "Return an alist of all keys that match REGEXP from the config file of REPO.
+Each entry in the returned list has the form (KEY . VALUE)."
+  (mapcar (lambda (line)
+	    (string-match "^[^ ]+" line)
+	    (cons (substring line 0   (match-end 0))
+		  (substring line (1+ (match-end 0)))))
+	  (cdr (lgit repo 1 "config --get-regexp %s" regexp))))
 
 (defun lgit-branch-get (repo branch key &optional allp)
   "Extract a key's value(s) from the config file of REPO.
