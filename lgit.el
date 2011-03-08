@@ -1,4 +1,4 @@
-;;; lgit.el --- conveniently call git from elisp libraries
+;;; lgit.el --- OBSOLETE conveniently call git from elisp libraries
 
 ;; Copyright (C) 2010-2011  Jonas Bernoulli
 
