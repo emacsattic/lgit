@@ -5,7 +5,7 @@
 ;; Author: Jonas Bernoulli <jonas@bernoul.li>
 ;; Created: 20100308
 ;; Updated: 20110308
-;; Version: 0.3-git
+;; Version: 0.4
 ;; Homepage: https://github.com/tarsius/lgit
 ;; Keywords: git
 
@@ -26,21 +26,11 @@
 
 ;;; Commentary:
 
-;; Support for conveniently calling git from elisp libraries.
+;; Conveniently call Git from Emacs lisp.
 
-;; Several solutions exist that provide an interface to git from within
-;; Emacs.  However if you want to use the low-level functions provided by
-;; these libraries in your own code as opposed to using their front-end
-;; commands to interact with git as a user (as they are intended to) this
-;; results in quite verbose incantations.
-
-;; This library does not try to do everything for everyone - instead it
-;; just provides the basic functionality that I need, in several of my
-;; libraries.  Creating this library allowed me to remove the almost
-;; identical git functions from all of them.  Since the libary name
-;; `egit' was already taken this library is called `lgit' instead.
-;; Incidentally this also emphasizes the fact that this library is
-;; intended to be used by other libraries, not as a front-end.
+;; This is the final release - coincidentally exactly one year after the
+;; first commit - before deprecating this package in favor of `magit',
+;; which you should be using instead.
 
 ;;; Code:
 
