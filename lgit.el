@@ -1,10 +1,10 @@
 ;;; lgit.el --- conveniently call git from elisp libraries
 
-;; Copyright (C) 2010  Jonas Bernoulli
+;; Copyright (C) 2010-2011  Jonas Bernoulli
 
 ;; Author: Jonas Bernoulli <jonas@bernoul.li>
 ;; Created: 20100308
-;; Updated: 20101027
+;; Updated: 20110308
 ;; Version: 0.3-git
 ;; Homepage: https://github.com/tarsius/lgit
 ;; Keywords: git
@@ -126,8 +126,7 @@ The value returned is the value of the last form in BODY."
 	 (lgit* "show %s:%s" ,revsym ,filesym)
 	 (archive-set-buffer-as-visiting-file ,filesym)
 	 (setq buffer-file-name ,filesym)
-	 (with-syntax-table emacs-lisp-mode-syntax-table
-	   ,@body)))))
+	 ,@body))))
 
 (defun lgit-bare-repo-p (repo)
   "Return t if REPO is a bare repository."
